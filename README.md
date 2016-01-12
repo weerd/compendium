@@ -1,3 +1,15 @@
+# Compendium
+
+> Taking notes like a BO$$.
+
+Compendium is an opinionated system for taking notes in markdown. Its aim is to provide an interface for a note taking system based on a particular individual's directory structure and file organization scheme from within a single Dropbox directory.
+
+_stay tuned, more to come..._
+
+
+***
+
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
