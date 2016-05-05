@@ -46,6 +46,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \Compendium\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'auth.dropbox' => \Compendium\Http\Middleware\AuthenticateDropbox::class,
         'guest' => \Compendium\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];

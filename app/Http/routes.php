@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/notes', function() {
-  return new Compendium\Services\Dropbox\Dropbox;
-});
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -35,7 +31,9 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+    Route::auth(); // @TODO: move routes from method into here to be more explicit.
 
     Route::get('/home', 'HomeController@index');
+
+    Route::get('/notes', 'NotesController@index');
 });

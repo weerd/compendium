@@ -153,6 +153,7 @@ return [
          */
         Compendium\Providers\AppServiceProvider::class,
         Compendium\Providers\AuthServiceProvider::class,
+        Compendium\Providers\DropboxServiceProvider::class,
         Compendium\Providers\EventServiceProvider::class,
         Compendium\Providers\RouteServiceProvider::class,
 
