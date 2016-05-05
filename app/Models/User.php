@@ -1,6 +1,6 @@
 <?php
 
-namespace Compendium;
+namespace Compendium\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

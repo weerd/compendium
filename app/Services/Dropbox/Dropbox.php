@@ -26,40 +26,53 @@ class Dropbox
      */
     protected $client;
 
+    /**
+     * The Dropbox AppInfo instance.
+     *
+     * @var \Dropbox\AppInfo
+     */
     protected $info;
 
+    /**
+     * The Dropbox App name.
+     *
+     * @var string
+     */
     protected $name;
 
-    protected $user;
-
+    /**
+     * Create new Dropbox instance.
+     *
+     * @param \Illuminate\Http\Request  $request
+     */
     public function __construct(Request $request)
     {
         $this->name = env('DROPBOX_APP_NAME');
 
         $this->info = new AppInfo(env('DROPBOX_API_KEY'), env('DROPBOX_API_SECRET'));
 
-        $this->user = $request->user();
-
-        $csrfTokenStore = new DropboxTokenStore('dropbox-auth-csrf-token');
+        $csrfTokenStore = new DropboxTokenStore(env('DROPBOX_TOKEN_SESSION_KEY'));
 
         $this->authenticator = new WebAuth($this->info, env('DROPBOX_APP_NAME'), env('DROPBOX_APP_REDIRECT'), $csrfTokenStore);
     }
 
     /**
-     * [requestToken description]
-     * @param  [type] $user [description]
-     * @return [type]       [description]
+     * Request a new authentication token from Dropbox.
+     *
+     * @return void
      */
-    public function requestToken($user)
+    public function requestToken()
     {
         header('Location: ' . $this->authenticator->start());
+
         exit();
     }
 
     /**
-     * [validateToken description]
-     * @param  [type] $user [description]
-     * @return [type]       [description]
+     * Check if user token is valid.
+     *
+     * @param  \Compendium\Models\User  $user
+     * @return mixed
      */
     public function validateToken($user)
     {
@@ -86,6 +99,8 @@ class Dropbox
     public function storeToken($request, $user)
     {
         list($token, $dropboxId, $state) = $this->authenticator->finish($request->all());
+        // @TODO: need to deal with catching the Exception_BadRequest exception if code has expired.
+        // @TODO: need to deal with catching the WebAuthException_BadState if CSRF session token is missing?
 
         $user->dropbox_token = $token;
 
