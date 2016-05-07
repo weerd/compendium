@@ -3,7 +3,6 @@
 namespace Compendium\Console\Commands;
 
 use Compendium\Models\User;
-use Compendium\Services\Dropbox\DropboxTokenStore;
 use Illuminate\Console\Command;
 
 class ClearDropboxToken extends Command

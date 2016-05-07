@@ -2,12 +2,10 @@
 
 namespace Compendium\Services\Dropbox;
 
-use Compendium\Services\Dropbox\DropboxTokenStore;
 use Dropbox\Client;
 use Dropbox\AppInfo;
-use Dropbox\ArrayEntryStore;
-use Dropbox\Exception_InvalidAccessToken;
 use Dropbox\WebAuth;
+use Dropbox\Exception_InvalidAccessToken;
 use Illuminate\Http\Request;
 
 class Dropbox

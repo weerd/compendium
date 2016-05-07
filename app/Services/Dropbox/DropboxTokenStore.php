@@ -58,6 +58,7 @@ class DropboxTokenStore
     public function set($value)
     {
         $this->store->put($this->key, $value);
+
         $this->store->save();
     }
 }

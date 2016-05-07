@@ -1,9 +1,8 @@
 <?php
 
-namespace Compendium\Http\Controllers;
+namespace Compendium\Http\Controllers\Web;
 
-use Compendium\Http\Requests;
-use Illuminate\Http\Request;
+use Compendium\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {

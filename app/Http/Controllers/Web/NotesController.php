@@ -1,9 +1,7 @@
 <?php
 
-namespace Compendium\Http\Controllers;
+namespace Compendium\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
-use Compendium\Http\Requests;
 use Compendium\Services\Dropbox\Dropbox;
 use Compendium\Http\Controllers\Controller;
 
