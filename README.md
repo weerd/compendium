@@ -4,6 +4,10 @@
 
 Compendium is an opinionated system for taking notes in markdown. Its aim is to provide an interface for a note taking system based on a particular individual's directory structure and file organization scheme from within a single Dropbox directory.
 
+## Setup
+
+The app uses SQLite to store data, so you need to create a new sqlit file in **app/database** called **compendium.sqlite**.
+
 _stay tuned, more to come..._
 
 
