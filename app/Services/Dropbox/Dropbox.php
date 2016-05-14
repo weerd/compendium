@@ -18,13 +18,6 @@ class Dropbox
     protected $authenticator;
 
     /**
-     * The Dropbox client instance.
-     *
-     * @var \Dropbox\Client
-     */
-    protected $client;
-
-    /**
      * The Dropbox AppInfo instance.
      *
      * @var \Dropbox\AppInfo
@@ -39,11 +32,16 @@ class Dropbox
     protected $name;
 
     /**
-     * Create new Dropbox instance.
+     * The Dropbox client instance.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @var \Dropbox\Client
      */
-    public function __construct(Request $request)
+    public $client;
+
+    /**
+     * Create new Dropbox instance.
+     */
+    public function __construct()
     {
         $this->name = env('DROPBOX_APP_NAME');
 

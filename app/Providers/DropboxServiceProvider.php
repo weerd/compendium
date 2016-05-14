@@ -24,7 +24,7 @@ class DropboxServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('dropbox', function ($app) {
+        $this->app->singleton(Dropbox::class, function ($app) {
             return new Dropbox();
         });
     }

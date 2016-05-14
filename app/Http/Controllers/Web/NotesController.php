@@ -29,6 +29,8 @@ class NotesController extends Controller
      */
     public function index()
     {
+        // dd($this->dropbox->client->getAccountInfo());
+
         return 'list of all notes from Dropbox';
     }
 }

@@ -20,7 +20,9 @@ class AuthenticateDropbox
 
         // Request is redirect from Dropbox with OAuth token.
         if ($request->input('state') && $request->input('code')) {
-            $dropbox->storeToken($request, $request->user());
+            if (! $dropbox->validateToken($request->user())) {
+                $dropbox->storeToken($request, $request->user());
+            }
 
             return $next($request);
         }

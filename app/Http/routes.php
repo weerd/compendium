@@ -31,7 +31,7 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::group(['middleware' => 'web', 'namespace' => 'Web'], function () {
-    Route::auth(); // @TODO: move routes from method into here to be more explicit.
+    Route::auth(); // @TODO: move routes from method (\Illuminate\Routing) into here to be more explicit.
 
     Route::get('/home', 'HomeController@index');
 
