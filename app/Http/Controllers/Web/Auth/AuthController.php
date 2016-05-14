@@ -1,6 +1,6 @@
 <?php
 
-namespace Compendium\Http\Controllers\Auth;
+namespace Compendium\Http\Controllers\Web\Auth;
 
 use Compendium\User;
 use Validator;
