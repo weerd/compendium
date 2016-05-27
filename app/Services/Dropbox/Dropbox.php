@@ -11,6 +11,34 @@ use Illuminate\Http\Request;
 class Dropbox
 {
     /**
+     * Dropbox user account info.
+     *
+     * @var array
+     */
+    public $account;
+
+    /**
+     * The Dropbox client instance.
+     *
+     * @var \Dropbox\Client
+     */
+    public $client;
+
+    /**
+     * The main app path.
+     *
+     * @var string
+     */
+    public $path = '/Compendium';
+
+    /**
+     * The main app contents.
+     *
+     * @var array
+     */
+    public $contents;
+
+    /**
      * The Dropbox authentication instance.
      *
      * @var \Dropbox\WebAuth
@@ -32,13 +60,6 @@ class Dropbox
     protected $name;
 
     /**
-     * The Dropbox client instance.
-     *
-     * @var \Dropbox\Client
-     */
-    public $client;
-
-    /**
      * Create new Dropbox instance.
      */
     public function __construct()
@@ -52,6 +73,22 @@ class Dropbox
         $this->authenticator = new WebAuth($this->info, env('DROPBOX_APP_NAME'), env('DROPBOX_APP_REDIRECT'), $csrfTokenStore);
     }
 
+    public function getPathContents($path = null)
+    {
+        if (! $path) {
+            $path = $this->path;
+        }
+
+        $data = $this->client->getMetadataWithChildren($path);
+
+        if (isset($data['contents'])) {
+            return collect($data['contents']);
+        }
+
+        return $data;
+
+    }
+
     /**
      * Request a new authentication token from Dropbox.
      *
@@ -62,27 +99,6 @@ class Dropbox
         header('Location: ' . $this->authenticator->start());
 
         exit();
-    }
-
-    /**
-     * Check if user token is valid.
-     *
-     * @param  \Compendium\Models\User  $user
-     * @return mixed
-     */
-    public function validateToken($user)
-    {
-        if ($user->dropbox_token) {
-            $this->client = new Client($user->dropbox_token, $this->name, 'UTF-8');
-
-            try {
-                return $this->client->getAccountInfo();
-            } catch (Exception_InvalidAccessToken $e) {
-                return false;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -99,7 +115,62 @@ class Dropbox
         // @TODO: need to deal with catching the WebAuthException_BadState if CSRF session token is missing?
 
         $user->dropbox_token = $token;
+        $user->save();
 
-        return $user->save();
+        return $this->initializeClient($token);
+    }
+
+    /**
+     * Check if user token is valid.
+     *
+     * @param  \Compendium\Models\User  $user
+     * @return mixed
+     */
+    public function validateToken($user)
+    {
+        if ($user->dropbox_token) {
+            return $this->initializeClient($user->dropbox_token);
+        }
+
+        return false;
+    }
+
+    protected function findOrCreateAppDirectory()
+    {
+        $data = $this->getPathContents($this->path);
+
+        if (! $data) {
+            $data = $this->client->createFolder($this->path);
+        }
+
+        return $this->contents = $data;
+    }
+
+    /**
+     * Set the Dropbox client and attempt to connect to Dropbox.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    protected function initializeClient($token)
+    {
+        if (! $this->client) {
+            $this->client = new Client($token, $this->name, 'UTF-8');
+
+            try {
+                $this->account = $this->client->getAccountInfo();
+
+                if ($this->account) {
+                    $this->findOrCreateAppDirectory();
+                }
+
+                dd($this);
+                return $this->account;
+            } catch (Exception_InvalidAccessToken $e) {
+                return false;
+            }
+        }
+
+        return $this->client->account;
     }
 }

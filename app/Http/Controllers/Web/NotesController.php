@@ -29,8 +29,12 @@ class NotesController extends Controller
      */
     public function index()
     {
-        // dd($this->dropbox->client->getAccountInfo());
+        // $this->dropbox->getPathContents('/compendium/cURL/01_basics.md');
 
-        return 'list of all notes from Dropbox';
+        $notes = $this->dropbox->getPathContents(); // directory
+
+        // dd($this->dropbox->client->searchFileNames('/', 'Compendium')); // Finds /Code/compendium
+
+        return view('notes.index', compact('notes'));
     }
 }

@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.scss"],"names":[],"mappings":"AAEA;EACE,0BAA0B;EAC1B,aAAa;EACb,YAAY,EASb","file":"app.css","sourcesContent":["// @import \"node_modules/bootstrap-sass/assets/stylesheets/bootstrap\";\n\n.icon {\n  background-color: fuchsia;\n  height: 10px;\n  width: 10px;\n\n  &.-directory {\n\n  }\n\n  &.-file {\n\n  }\n}\n"],"sourceRoot":"/source/"}
